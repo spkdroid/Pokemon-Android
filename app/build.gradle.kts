@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -56,4 +58,27 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Compose
+    implementation(libs.ui)
+    implementation(libs.material3)
+    implementation(libs.androidx.navigation.compose)
+    // Lifecycle & LiveData
+    implementation(libs.androidx.lifecycle.runtime.ktx.v287)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // Retrofit & Gson
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    // Glide (for image loading)
+    implementation(libs.landscapist.glide)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    // Coil (alternative to Glide)
+    implementation(libs.coil.compose)
 }
