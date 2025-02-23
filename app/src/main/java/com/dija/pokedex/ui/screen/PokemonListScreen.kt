@@ -24,9 +24,10 @@ import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.dija.pokedex.data.model.Pokemon
 import com.dija.pokedex.viewmodel.PokemonViewModel
+import javax.inject.Inject
 
 @Composable
-fun PokemonListScreen(
+fun PokemonListScreen (
     navController: NavController,
     viewModel: PokemonViewModel
 ) {

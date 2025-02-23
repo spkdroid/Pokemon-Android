@@ -36,13 +36,18 @@ fun PokemonDetailScreen(
     ) {
         item {
             // Pokémon Image
-            Image(
-                painter = rememberImagePainter(pokemon!!.imageurl),
-                contentDescription = "Pokemon Image",
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = rememberImagePainter(pokemon!!.imageurl),
+                    contentDescription = "Pokemon Image",
+                    modifier = Modifier
+                        .size(350.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+            }
         }
 
         item {
@@ -65,8 +70,6 @@ fun PokemonDetailScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Displaying Stats with a Bar Graph
             Text(
                 text = "Stats",
                 style = MaterialTheme.typography.headlineMedium,
@@ -76,22 +79,11 @@ fun PokemonDetailScreen(
                 StatBarChart(pokemon)
             }
         }
-
         item {
             Spacer(modifier = Modifier.height(16.dp))
-
             // Additional Pokémon Information
             if (pokemon != null) {
                 PokemonInfo(pokemon)
-            }
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Evolution Info
-            if (pokemon != null) {
-                EvolutionInfo(pokemon)
             }
         }
     }
@@ -118,27 +110,69 @@ fun StatBarChart(pokemon: Pokemon) {
 
 @Composable
 fun StatBar(statName: String, statValue: Int) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            text = statName,
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Box(
-            modifier = Modifier
-                .height(16.dp)
-                .fillMaxWidth(0.8f)
-                .background(Color.Gray.copy(alpha = 0.3f))
+    val maxStatValue = 100f // Pokémon stats usually have a max of 255
+    val percentage = statValue / maxStatValue
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        // Row for the stat name and bar
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
+            // Stat Name (aligned left)
+            Text(
+                text = statName,
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f) // Pushes everything else to the right
+            )
+
+            // Stat Bar Container
             Box(
                 modifier = Modifier
                     .height(16.dp)
-                    .fillMaxWidth(statValue / 255f) // Normalize value to max 255
-                    .background(MaterialTheme.colorScheme.primary)
+                    .weight(4f) // Gives the bar a good proportion relative to text
+                    .background(Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
+            ) {
+                // Filled portion of the bar
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(percentage)
+                        .background(getStatBarColor(statName), RoundedCornerShape(8.dp))
+                )
+            }
+
+            // Stat Percentage (aligned right)
+            Text(
+                text = "${statValue}",
+                style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .padding(start = 8.dp) // Adds spacing between the bar and percentage
             )
         }
     }
 }
+
+
+@Composable
+fun getStatBarColor(statName: String): Color {
+     return when (statName) {
+        "HP" -> Color.Green
+        "Attack" -> Color.Red
+        "Defense" -> Color.Blue
+        "Special Attack" -> Color.Magenta
+        "Special Defense" -> Color.Yellow
+        "Speed" -> Color.Cyan
+        else -> Color.Gray
+    }
+}
+
 
 @Composable
 fun PokemonInfo(pokemon: Pokemon) {
