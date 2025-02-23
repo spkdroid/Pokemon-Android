@@ -21,7 +21,13 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
 
     fun fetchPokemon(name: String) {
         viewModelScope.launch {
-            _pokemonList.value = repository.getPokemon(name) ?: emptyList()
+            try {
+                val response = repository.getPokemon(name)
+                val result = response ?: emptyList()
+                _pokemonList.postValue(result)
+            } catch (e: Exception) {
+                _pokemonList.postValue(emptyList())
+            }
         }
     }
 
