@@ -54,11 +54,13 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.foundation.android)
     implementation(libs.material)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.core.testing)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
@@ -85,5 +87,29 @@ dependencies {
     // Coil (alternative to Glide)
     implementation(libs.coil.compose)
 
+    // JUnit for Unit Testing
+    testImplementation(libs.junit)
 
+    // AndroidX Test for LiveData
+    testImplementation(libs.androidx.core.testing)
+
+    // Coroutine Testing
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Mockito for Mocking
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+
+    // Compose UI Testing
+    androidTestImplementation(libs.ui.test.junit4)
+
+    // Espresso for UI Testing
+    androidTestImplementation(libs.androidx.espresso.core.v361)
+
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.android)
+    //noinspection UseTomlInstead
+    testImplementation("net.bytebuddy:byte-buddy:1.12.22")
+    testImplementation(libs.robolectric)
 }
