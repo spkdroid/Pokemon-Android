@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.ui.test.junit4.android)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -64,52 +66,50 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Compose
+    // Jetpack Compose
     implementation(libs.ui)
     implementation(libs.material3)
     implementation(libs.androidx.navigation.compose)
+
     // Lifecycle & LiveData
     implementation(libs.androidx.lifecycle.runtime.ktx.v287)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    // Retrofit & Gson
+
+    // Retrofit & Gson (Networking)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    // Hilt
+
+    // Hilt (Dependency Injection)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // Glide (for image loading)
-    implementation(libs.landscapist.glide)
+    // Image Loading (Choose one: Glide or Coil)
+    implementation(libs.landscapist.glide) // Glide
+    implementation(libs.coil.compose) // Alternative: Coil (comment out if not used)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-    // Coil (alternative to Glide)
-    implementation(libs.coil.compose)
 
-    // JUnit for Unit Testing
+    // Room Database (Offline Storage)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+
+    // Unit Testing
     testImplementation(libs.junit)
-
-    // AndroidX Test for LiveData
     testImplementation(libs.androidx.core.testing)
-
-    // Coroutine Testing
     testImplementation(libs.kotlinx.coroutines.test)
-
-    // Mockito for Mocking
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
 
-    // Compose UI Testing
+    // UI Testing
     androidTestImplementation(libs.ui.test.junit4)
 
     // Espresso for UI Testing
     androidTestImplementation(libs.androidx.espresso.core.v361)
 
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.inline)
-    testImplementation(libs.mockito.android)
-    //noinspection UseTomlInstead
-    testImplementation("net.bytebuddy:byte-buddy:1.12.22")
+    // Robolectric for Unit Testing
     testImplementation(libs.robolectric)
 }

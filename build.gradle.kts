@@ -10,9 +10,3 @@ buildscript {
         classpath(libs.hilt.android.gradle.plugin)
     }
 }
-
-configurations.all {
-    resolutionStrategy {
-        force("androidx.test.espresso:espresso-core:3.5.1")
-    }
-}

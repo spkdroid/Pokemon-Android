@@ -1,8 +1,14 @@
 package com.dija.pokedex.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+
+@Entity(tableName = "pokemon_table")
+@TypeConverters(PokemonTypeConverter::class)
 data class Pokemon(
     val name: String,
-    val id: String,
+    @PrimaryKey val id: String,
     val imageurl: String,
     val xdescription: String,
     val ydescription: String,
