@@ -3,10 +3,10 @@ name: Build APK and Tag Version
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
