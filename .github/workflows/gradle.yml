@@ -1,52 +1,26 @@
-name: Build APK and Tag Version
+name: Android CI
 
 on:
   push:
     branches:
       - master
   pull_request:
-    branches:
-      - master
+    paths-ignore:
+      # Don't build the entire app when just changing tutorials, which have their own workflow.
+      - 'samples/tutorial/**'
 
 jobs:
-  build:
+  dokka:
+    name: Android CI
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
     steps:
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Set up JDK (e.g., OpenJDK 11)
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v2
+      - name: set up JDK 11.0.7
+        uses: actions/setup-java@v1
         with:
-          java-version: '11'
-          distribution: 'adoptopenjdk'
+          java-version: 11.0.7
 
-      # Cache Gradle dependencies
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      # Build APK
-      - name: Build APK
-        run: ./gradlew assembleRelease
-
-      # Create a Git tag
-      - name: Create Git Tag
-        run: |
-          VERSION_TAG="v$(date +'%Y%m%d%H%M%S')"
-          git tag $VERSION_TAG
-          git push origin $VERSION_TAG
-
-      # Upload the APK as an artifact
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release
-          path: app/build/outputs/apk/release/app-release.apk
+      ## Actual task
+      - name: Assemble with gradle — make sure everything builds
+        run: ./gradlew assemble --no-daemon --stacktrace
