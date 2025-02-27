@@ -22,5 +22,8 @@ jobs:
           java-version: 11.0.7
 
       ## Actual task
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Assemble with gradle — make sure everything builds
         run: ./gradlew assemble --no-daemon --stacktrace
