@@ -6,24 +6,42 @@ on:
       - master
   pull_request:
     paths-ignore:
-      # Don't build the entire app when just changing tutorials, which have their own workflow.
       - 'samples/tutorial/**'
 
 jobs:
-  dokka:
+  build:
     name: Android CI
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 17
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
           java-version: 17
 
-      ## Actual task
-      - name: Make gradlew executable
+      - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Assemble with gradle — make sure everything builds
-        run: ./gradlew assemble --no-daemon --stacktrace
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+
+      - name: Run Instrumentation Tests
+        run: ./gradlew connectedAndroidTest --no-daemon --stacktrace
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Archive APKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release-APK
+          path: app/build/outputs/apk/release/app-release.apk
+          
+      - name: Archive Debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Debug-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
