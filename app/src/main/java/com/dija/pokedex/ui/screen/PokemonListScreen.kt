@@ -31,13 +31,10 @@ fun PokemonListScreen (
     navController: NavController,
     viewModel: PokemonViewModel
 ) {
-    // State to hold the search query
     var searchQuery by remember { mutableStateOf("") }
 
-    // Observing LiveData from the ViewModel
     val pokemonList by viewModel.pokemonList.observeAsState(emptyList())
 
-    // Handle the search query change
     LaunchedEffect(searchQuery) {
         if (searchQuery.isNotEmpty()) {
             viewModel.fetchPokemon(searchQuery)
@@ -49,7 +46,6 @@ fun PokemonListScreen (
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Title
         Text(
             text = "Pokedex",
             style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
@@ -58,7 +54,6 @@ fun PokemonListScreen (
                 .align(Alignment.CenterHorizontally)
         )
 
-        // Search Bar with search icon
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { newQuery ->
@@ -74,7 +69,6 @@ fun PokemonListScreen (
             shape = MaterialTheme.shapes.small
         )
 
-        // LazyColumn to display Pokémon list
         LazyColumn(
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
@@ -102,7 +96,6 @@ fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Pokémon Image
             Image(
                 painter = rememberImagePainter(pokemon.imageurl),
                 contentDescription = "Pokemon Image",
@@ -114,7 +107,6 @@ fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Pokémon Information
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.Start

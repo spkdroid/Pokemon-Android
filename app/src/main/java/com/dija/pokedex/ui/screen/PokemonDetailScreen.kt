@@ -35,7 +35,6 @@ fun PokemonDetailScreen(
             .padding(16.dp)
     ) {
         item {
-            // Pokémon Image
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -53,7 +52,6 @@ fun PokemonDetailScreen(
         item {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Pokémon Name
             Text(
                 text = pokemon!!.name,
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
@@ -61,7 +59,6 @@ fun PokemonDetailScreen(
         }
 
         item {
-            // Pokémon ID
             Text(
                 text = "ID: ${pokemon!!.id}",
                 style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
@@ -81,7 +78,6 @@ fun PokemonDetailScreen(
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            // Additional Pokémon Information
             if (pokemon != null) {
                 PokemonInfo(pokemon)
             }
@@ -100,7 +96,6 @@ fun StatBarChart(pokemon: Pokemon) {
         "Speed" to pokemon.speed
     )
 
-    // Using a simple bar chart to represent stats
     Column {
         stats.forEach { stat ->
             StatBar(stat.first, stat.second)
@@ -110,7 +105,7 @@ fun StatBarChart(pokemon: Pokemon) {
 
 @Composable
 fun StatBar(statName: String, statValue: Int) {
-    val maxStatValue = 100f // Pokémon stats usually have a max of 255
+    val maxStatValue = 100f
     val percentage = statValue / maxStatValue
 
     Column(
@@ -118,12 +113,10 @@ fun StatBar(statName: String, statValue: Int) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        // Row for the stat name and bar
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Stat Name (aligned left)
             Text(
                 text = statName,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
@@ -131,14 +124,12 @@ fun StatBar(statName: String, statValue: Int) {
                 modifier = Modifier.weight(1f) // Pushes everything else to the right
             )
 
-            // Stat Bar Container
             Box(
                 modifier = Modifier
                     .height(16.dp)
                     .weight(4f) // Gives the bar a good proportion relative to text
                     .background(Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
             ) {
-                // Filled portion of the bar
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
@@ -147,7 +138,6 @@ fun StatBar(statName: String, statValue: Int) {
                 )
             }
 
-            // Stat Percentage (aligned right)
             Text(
                 text = "${statValue}",
                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
